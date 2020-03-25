@@ -17,4 +17,4 @@ How to set up ta:
 
 [Google drive w/ resources and documentation of progress](https://drive.google.com/drive/u/1/folders/12lqrfkH5p5JVHiiYNTpMfTezfoFQCbTE)
 
-![alt text](https://imgur.com/1RsnB2V)
+![alt text](https://i.imgur.com/9DlxUwg.png)
