@@ -7,9 +7,15 @@ Exploring how ideas from applied mathematics, physics, and signal processing can
     - LSTM
     - Clustering (which could tie in to a graph based model)
 * Machine learning: qualititative 
-    - Sentiment Analysis 
+    - Sentiment Analysis (Twitter API)
 
-
+## Data sources
+- Tickers
+    - [Nasdaq screener for tickers](https://www.nasdaq.com/market-activity/stocks/screener)
+    - [Bloomberg OPenFIGI](https://bsym.bloomberg.com/api)
+    - [NasdaqTrader FTP](http://ftp.nasdaqtrader.com/)
+    - [EOD](http://eoddata.com/symbols.aspx?AspxAutoDetectCookieSupport=1)
+    - [A thread here](https://quant.stackexchange.com/questions/1640/where-to-download-list-of-all-common-stocks-traded-on-nyse-nasdaq-and-amex#:~:text=You%20can%20download%20all%20stocks,%2Fcompany%2Dlist.aspx.)
 
 How to set up ta:
 ` $ pip install --upgrade ta `
