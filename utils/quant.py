@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 from math import log, floor
+from sklearn.decomposition import PCA
 
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
@@ -52,7 +53,7 @@ def delay_embed(data, norm, m, step = 1):
         traj_mat = (1/(nt**0.5)) * traj_mat #normalize by 1/sqrt(n)
     return traj_mat
 
-def SSA(data, m, step, norm = True, return_traj = False):
+def SSA(data, m, step, norm = True, return_traj = True):
     """Performs SSA on time series with window size m and inter-window step size"""
     if type(data) != np.ndarray:
         data = np.array(data)

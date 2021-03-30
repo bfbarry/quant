@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
+from math import log, floor
+from sklearn.decomposition import PCA
+
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from math import log, floor
+
+"""More mathematically oriented functions and helper functions"""
 
 norm1 =lambda x: (np.array(x) - min(np.array(x))) / (max(np.array(x)) - min(np.array(x)))
 
@@ -34,7 +38,52 @@ def draw_phase_space(x,y,z=None):
         for xn,yn,zn in list(zip(x,y,z))[1:]:
             ax.plot([xprev,xn],[yprev,yn],[zprev,zn],color=colors[i_c],alpha=0.5, linestyle='solid'); i_c+=1
             xprev,yprev,zprev = xn,yn,zn
-            
+
+def delay_embed(data, norm, m, step = 1):
+    """m is window length"""
+    data = np.array(data)
+    nt = data.shape[0] #length of original vector
+    n = int((nt-m+1)/step) #number of lags
+    traj_mat = np.empty((0,m)) #initialize delay embedded trajectory matrix
+    for i in range(n):
+        window_i = data[i*step:i*step + m]
+        traj_mat = np.append(traj_mat, [window_i], axis=0 )
+    
+    if norm:
+        traj_mat = (1/(nt**0.5)) * traj_mat #normalize by 1/sqrt(n)
+    return traj_mat
+
+def SSA(data, m, step, norm = True, return_traj = True):
+    """Performs SSA on time series with window size m and inter-window step size"""
+    if type(data) != np.ndarray:
+        data = np.array(data)
+    nt = data.shape[0] #length of original vector
+    n = int((nt-m+1)/step) #number of lags
+    
+    traj_mat = delay_embed(data, norm, m, step)
+    pca = PCA(n_components = n)
+    pca.fit(traj_mat.T)
+    components = pca.components_
+    e_spectrum = pca.explained_variance_ratio_
+    
+    if not return_traj:
+        return components, e_spectrum
+    else:
+        return components, e_spectrum, traj_mat
+
+def mass_SSA(tickers, period, window, step):
+    """Period is a tuple, e.g. ('2019-01-01','2020-01-01') for extracting data from that time period
+    Window and step are SSA parameters """
+    ssa_results = {}
+    for ticker in tickers:
+        data = yf.download(ticker, period[0], period[1])
+        ssa_results[ticker] = SSA(data, m = window, step = step, return_traj = True)
+        
+    return ssa_results
+        
+def kmeans(data, k):
+    ...
+    
 ### DFA from https://raphaelvallat.com/entropy/build/html/generated/entropy.detrended_fluctuation.html#entropy.detrended_fluctuation
 ###
 
